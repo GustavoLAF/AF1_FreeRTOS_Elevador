@@ -1,0 +1,8 @@
+﻿  main.c
+D:\Faculdade\10o Semestre\OE2PIN2 - Sistema Operacional Embarcado II - Lab\AF1_FreeRTOS_Elevador\Project\AF1_FreeRTOS_Elevador\main.c(81,33): warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'TaskFunction_t'
+D:\Faculdade\10o Semestre\OE2PIN2 - Sistema Operacional Embarcado II - Lab\AF1_FreeRTOS_Elevador\Project\AF1_FreeRTOS_Elevador\main.c(82,25): warning C4113: 'void (__cdecl *)()' differs in parameter lists from 'TaskFunction_t'
+D:\Faculdade\10o Semestre\OE2PIN2 - Sistema Operacional Embarcado II - Lab\AF1_FreeRTOS_Elevador\Project\AF1_FreeRTOS_Elevador\main.c(123,102): warning C4047: 'function': 'const UBaseType_t' differs in levels of indirection from 'void *'
+D:\Faculdade\10o Semestre\OE2PIN2 - Sistema Operacional Embarcado II - Lab\AF1_FreeRTOS_Elevador\Project\AF1_FreeRTOS_Elevador\main.c(123,98): warning C4024: 'xTimerCreate': different types for formal and actual parameter 3
+D:\Faculdade\10o Semestre\OE2PIN2 - Sistema Operacional Embarcado II - Lab\AF1_FreeRTOS_Elevador\Project\AF1_FreeRTOS_Elevador\main.c(160,106): warning C4047: 'function': 'const UBaseType_t' differs in levels of indirection from 'void *'
+D:\Faculdade\10o Semestre\OE2PIN2 - Sistema Operacional Embarcado II - Lab\AF1_FreeRTOS_Elevador\Project\AF1_FreeRTOS_Elevador\main.c(160,102): warning C4024: 'xTimerCreate': different types for formal and actual parameter 3
+  AF1_FreeRTOS_Elevador.vcxproj -> D:\Faculdade\10o Semestre\OE2PIN2 - Sistema Operacional Embarcado II - Lab\AF1_FreeRTOS_Elevador\Project\AF1_FreeRTOS_Elevador\AF1_FreeRTOS_Elevador\Debug\AF1_FreeRTOS_Elevador.exe

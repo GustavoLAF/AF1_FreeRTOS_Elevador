@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "AF1_FreeRTOS_Elevador", "AF1_FreeRTOS_Elevador.vcxproj", "{05F4CDF4-F3EC-43E7-B828-538744269DA1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{05F4CDF4-F3EC-43E7-B828-538744269DA1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{05F4CDF4-F3EC-43E7-B828-538744269DA1}.Debug|Win32.Build.0 = Debug|Win32
+		{05F4CDF4-F3EC-43E7-B828-538744269DA1}.Release|Win32.ActiveCfg = Release|Win32
+		{05F4CDF4-F3EC-43E7-B828-538744269DA1}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {33DCD864-5CF9-4571-90E8-91C47342E177}
+	EndGlobalSection
+EndGlobal

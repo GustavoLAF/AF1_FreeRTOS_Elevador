@@ -1,0 +1,2 @@
+D:\Faculdade\10o Semestre\OE2PIN2 - Sistema Operacional Embarcado II - Lab\AF1_FreeRTOS_Elevador\Project\AF1_FreeRTOS_Elevador\AF1_FreeRTOS_Elevador\Debug\AF1_FreeRTOS_Elevador.exe
+D:\Faculdade\10o Semestre\OE2PIN2 - Sistema Operacional Embarcado II - Lab\AF1_FreeRTOS_Elevador\Project\AF1_FreeRTOS_Elevador\AF1_FreeRTOS_Elevador\Debug\AF1_FreeRTOS_Elevador.pdb
