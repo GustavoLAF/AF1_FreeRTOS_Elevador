@@ -8,8 +8,11 @@
 #include "task.h"
 #include "timers.h"
 
-/* Demo includes. */
+/* Functions. */
 #include "supporting_functions.h"
+
+/* Windows */
+#include "windows.h"
 
 /*-----------------------------------------------------------*/
 
@@ -23,6 +26,7 @@ typedef struct
 {
 	int AndarAtual;
 	DirecaoEnum DirecaoAtual;
+	int emUso;
 } ElevadorSct;
 
 typedef struct
@@ -44,7 +48,6 @@ static TimerHandle_t xChegadaDestinoTimer = NULL;
 /*
  * The callback function used by the timer.
  */
- //static void prvInitialTimerCallback(TimerHandle_t xTimer);
 static void prvChegadaElevadorOrigemTimerCallback(TimerHandle_t xTimer);
 static void prvChegadaElevadorDestinoTimerCallback(TimerHandle_t xTimer);
 
@@ -61,7 +64,7 @@ static void ChegadaDoElevadorOrigem();
 static void ChegadaDoElevadorDestino();
 static void ApresentarInfoElevadores();
 static void AtualizarElevadores();
-static char *ConvertDirecaoIntToString(int direcao);
+static char* ConvertDirecaoIntToString(int direcao);
 static int ElevadorAcionadoPelaAproximacao();
 
 /*-----------------------------------------------------------*/
@@ -127,8 +130,9 @@ static void ChegadaDoElevadorOrigem() {
 static void ChegadaDoElevadorDestino() {
 	ElevadorSct elevadorPassageiro = Elevadores[Passageiro.IndiceElevadorAtual];
 
-	if (elevadorPassageiro.AndarAtual == Passageiro.AndarOrigem) {
+	if (!elevadorPassageiro.emUso && elevadorPassageiro.AndarAtual == Passageiro.AndarOrigem) {
 		ApresentarInfoElevadores();
+		printf("EM USO %i", elevadorPassageiro.emUso);
 		printf("Voce esta no %io andar", Passageiro.AndarOrigem);
 		printf("\n\nO elevador %i acionado ja esta no seu andar!", Passageiro.IndiceElevadorAtual + 1);
 		vPrintString("\n\nInforme agora o andar de destino: ");
@@ -153,6 +157,7 @@ static void ChegadaDoElevadorDestino() {
 				elevadorPassageiro.DirecaoAtual = 2;
 			}
 
+			printf("\n\nVoce selecionou o %i andar", Passageiro.AndarDestino);
 			printf("\n\nAguarde aproximadamente %i segundos ate que o elevador %i chegue ate o %i andar...", tempoChegada, Passageiro.IndiceElevadorAtual + 1, Passageiro.AndarDestino);
 
 			tempoChegada = tempoChegada * 1000;
@@ -180,7 +185,7 @@ static void prvChegadaElevadorOrigemTimerCallback(TimerHandle_t xTimer)
 	}
 
 	ApresentarInfoElevadores();
-	printf("O elevador %i chegou no seu andar! Tempo percorrido: %i segundos", Passageiro.IndiceElevadorAtual + 1, xTimeNow / 1000);
+	printf("O elevador %i chegou no andar %i! Tempo percorrido: %i segundos", Passageiro.IndiceElevadorAtual + 1, Elevadores[Passageiro.IndiceElevadorAtual].AndarAtual, xTimeNow / 1000);
 	vPrintString("\n\nInforme agora o andar de destino: ");
 }
 
@@ -197,8 +202,10 @@ static void prvChegadaElevadorDestinoTimerCallback(TimerHandle_t xTimer)
 	Passageiro.AndarOrigem = Elevadores[Passageiro.IndiceElevadorAtual].AndarAtual;
 
 	ApresentarInfoElevadores();
-	printf("O elevador %i chegou no destino! Tempo percorrido: %i segundos", Passageiro.IndiceElevadorAtual + 1, xTimeNow / 1000);
+	printf("O elevador %i chegou no andar %i! Tempo percorrido: %i segundos", Passageiro.IndiceElevadorAtual + 1, Elevadores[Passageiro.IndiceElevadorAtual].AndarAtual, xTimeNow / 1000);
 	vPrintString("\n\nObrigado por utilizar o elevador!");
+
+	Elevadores[Passageiro.IndiceElevadorAtual].emUso = 0;
 }
 
 static void ApresentarInfoElevadores() {
@@ -208,10 +215,10 @@ static void ApresentarInfoElevadores() {
 	printf("Elevador 1 - AndarAtual: %i; DirecaoAtual: %s\n", Elevadores[0].AndarAtual, ConvertDirecaoIntToString(Elevadores[0].DirecaoAtual));
 	printf("Elevador 2 - AndarAtual: %i; DirecaoAtual: %s\n", Elevadores[1].AndarAtual, ConvertDirecaoIntToString(Elevadores[1].DirecaoAtual));
 	printf("Elevador 3 - AndarAtual: %i; DirecaoAtual: %s\n", Elevadores[2].AndarAtual, ConvertDirecaoIntToString(Elevadores[2].DirecaoAtual));
-	printf("Passageiro - AndarAtual: %i; AndarDestino: %i\n\n", Passageiro.AndarOrigem, Passageiro.AndarDestino);
+	printf("Passageiro - AndarAtual: %i; AndarDestino: %i; ElevadorAcionado: %i\n\n", Passageiro.AndarOrigem, Passageiro.AndarDestino, Passageiro.IndiceElevadorAtual + 1);
 }
 
-static char *ConvertDirecaoIntToString(int direcao) {
+static char* ConvertDirecaoIntToString(int direcao) {
 	if (direcao == 0) {
 		return "Parado";
 	}
@@ -228,16 +235,18 @@ static void AtualizarElevadores() {
 
 	for (;; ) {
 		for (int i = 0; i < 3; i++) {
-			if (Elevadores[i].AndarAtual > 0 && Elevadores[i].AndarAtual < 9) {
-				if (Elevadores[i].DirecaoAtual == 1) {
-					Elevadores[i].AndarAtual--;
+			if (!Elevadores[i].emUso) {
+				if (Elevadores[i].AndarAtual > 0 && Elevadores[i].AndarAtual < 9) {
+					if (Elevadores[i].DirecaoAtual == 1) {
+						Elevadores[i].AndarAtual--;
+					}
+					else if (Elevadores[i].DirecaoAtual == 2) {
+						Elevadores[i].AndarAtual++;
+					}
 				}
-				else if (Elevadores[i].DirecaoAtual == 2) {
-					Elevadores[i].AndarAtual++;
+				else if (Elevadores[i].AndarAtual == 0 || Elevadores[i].AndarAtual == 9) {
+					Elevadores[i].DirecaoAtual = 0;
 				}
-			}
-			else if (Elevadores[i].AndarAtual == 0 || Elevadores[i].AndarAtual == 9) {
-				Elevadores[i].DirecaoAtual = 0;
 			}
 		}
 
@@ -283,6 +292,7 @@ static void vKeyHitTask()
 					Passageiro.IndiceElevadorAtual = indiceElevadorMaisProximo;
 
 					ElevadorSct elevadorMaisProximo = Elevadores[indiceElevadorMaisProximo];
+					Elevadores[indiceElevadorMaisProximo].emUso = 1;
 
 					if (elevadorMaisProximo.AndarAtual == Passageiro.AndarOrigem) {
 						ChegadaDoElevadorDestino();
